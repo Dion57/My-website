@@ -20,6 +20,10 @@ stages:
   - job: Build
     steps:
     - checkout: self
+    
+    - script: | # Debugging step to list files in the source directory
+        ls -R $(Build.SourcesDirectory)
+      displayName: 'List Source Files'
 
     - script: | # Build your HTML and CSS files (No actual compilation, just copying)
         mkdir -p $(Build.BinariesDirectory)/My-website
