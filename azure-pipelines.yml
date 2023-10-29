@@ -27,7 +27,7 @@ stages:
         # Build your website (e.g., copy files)
         echo "Building the website..."
         mkdir -p $(Build.ArtifactStagingDirectory)/website
-        cp -R * $(Build.ArtifactStagingDirectory)/website/
+        copy -R * $(Build.ArtifactStagingDirectory)/website/
       displayName: 'Build Website'
 
     - publish: $(Build.ArtifactStagingDirectory)/website
