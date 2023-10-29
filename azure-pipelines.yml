@@ -4,18 +4,53 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+- '*'
+
+pr:
+- '*'
 
 pool:
   name: website-pool
   demands:
   - Agent.Name -equals website-blog
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    steps:
+    - checkout: self
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    - script: |
+        # Build your website (e.g., copy files)
+        echo "Building the website..."
+        mkdir -p $(Build.ArtifactStagingDirectory)/website
+        cp -R * $(Build.ArtifactStagingDirectory)/website/
+      displayName: 'Build Website'
+
+    - publish: $(Build.ArtifactStagingDirectory)/website
+      artifact: 'website'
+      displayName: 'Publish Website Artifacts'
+
+- stage: Deploy
+  jobs:
+  - deployment: Deploy
+    environment: 'your-environment-name'  # Create an environment in Azure DevOps
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: 'website'
+
+          - script: |
+              # Deploy to GitHub Pages
+              echo "Deploying the website to GitHub Pages..."
+              git config --global user.email "you@example.com"
+              git config --global user.name "Your Name"
+              git checkout --orphan gh-pages
+              cp -R $(Pipeline.Workspace)/current/* .
+              git add --all
+              git commit -m "Azure DevOps CI/CD deployment"
+              git push origin gh-pages --force
+            displayName: 'Deploy to GitHub Pages'
