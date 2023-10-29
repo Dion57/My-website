@@ -4,9 +4,7 @@
 # https://aka.ms/yaml
 
 trigger:
- branches:
-    include:
-     - '*'
+- '*'
 
 pr:
 - '*'
@@ -23,9 +21,10 @@ stages:
     steps:
     - checkout: self
 
-    - script: | # Build your HTML and CSS files (No actual compilation, just copying)
+    - script: |
+        # Build your HTML and CSS files (No actual compilation, just copying)
         mkdir -p $(Build.BinariesDirectory)/website
-        copy -R website/* $(Build.BinariesDirectory)/website/
+        copy -R * $(Build.BinariesDirectory)/website/
       displayName: 'Copy Website Files'
 
     - publish: $(Build.BinariesDirectory)/website
@@ -35,22 +34,15 @@ stages:
 - stage: Deploy
   jobs:
   - deployment: Deploy
-    environment: New-deploy  # Create an environment in Azure DevOps
+    environment: 'your-environment-name'  # Create an environment in Azure DevOps
     strategy:
       runOnce:
         deploy:
           steps:
           - download: current
-            artifact: 'website'
+            artifact: drop
 
           - script: |
-              # Deploy to GitHub Pages
-              echo "Deploying the website to GitHub Pages..."
-              git config --global user.email "you@example.com"
-              git config --global user.name "Your Name"
-              git checkout --orphan gh-pages
-              cp -R $(Pipeline.Workspace)/current/* .
-              git add --all
-              git commit -m "Azure DevOps CI/CD deployment"
-              git push origin gh-pages --force
-            displayName: 'Deploy to GitHub Pages'
+              # Deploy your website to a hosting platform of your choice (e.g., Azure Blob Storage, GitHub Pages)
+              # Replace with your deployment commands and settings
+            displayName: 'Deploy Website'
