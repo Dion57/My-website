@@ -24,9 +24,9 @@ stages:
     - checkout: self
 
     - script: | # Build your website (e.g., copy files)      
-        echo "Building the website..."
         mkdir -p $(Build.ArtifactStagingDirectory)/website
         copy -R * $(Build.ArtifactStagingDirectory)/website/
+        echo "Building the website..."
       displayName: 'Build Website'
 
     - publish: $(Build.ArtifactStagingDirectory)/website
