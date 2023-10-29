@@ -23,16 +23,14 @@ stages:
     steps:
     - checkout: self
 
-    - script: | 
-        Build your website (e.g., copy files)      
-        mkdir -p $(Build.ArtifactStagingDirectory)/website
-        copy -R * $(Build.ArtifactStagingDirectory)/website/
-        echo "Building the website..."
-      displayName: 'Build Website'
+    - script: | # Build your HTML and CSS files (No actual compilation, just copying)
+        mkdir -p $(Build.BinariesDirectory)/website
+        cp -R * $(Build.BinariesDirectory)/website/
+      displayName: 'Copy Website Files'
 
-    - publish: $(Build.ArtifactStagingDirectory)/website
-      artifact: 'website'
-      displayName: 'Publish Website Artifacts'
+    - publish: $(Build.BinariesDirectory)/website
+      artifact: drop
+      displayName: 'Publish Website Files'
 
 - stage: Deploy
   jobs:
