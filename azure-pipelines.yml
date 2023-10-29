@@ -26,11 +26,11 @@ stages:
       displayName: 'List Source Files'
 
     - script: | # Build your HTML and CSS files (No actual compilation, just copying)
-        mkdir -p $(Build.BinariesDirectory)/html
-        copy -R * $(Build.BinariesDirectory)/html/
+        mkdir -p $(Build.BinariesDirectory)/.
+        copy -R * $(Build.BinariesDirectory)/./
       displayName: 'Copy Website Files'
 
-    - publish: $(Build.BinariesDirectory)/html
+    - publish: $(Build.BinariesDirectory)/.
       artifact: drop
       displayName: 'Publish Website Files'
 
