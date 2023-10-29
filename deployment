@@ -5,7 +5,9 @@ pr:
 - '*'
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: website-pool
+  demands:
+  - Agent.Name -equals website-blogs
 
 stages:
 - stage: Build
