@@ -24,8 +24,8 @@ stages:
     - checkout: self
 
     - script: | # Build your HTML and CSS files (No actual compilation, just copying)
-        mkdir -p $(Newdir)/website
-        copy -R * $(Newdir)/website/
+        mkdir -p $(Build.BinariesDirectory)/website
+        copy -R website/* $(Build.BinariesDirectory)/website/
       displayName: 'Copy Website Files'
 
     - publish: $(Build.BinariesDirectory)/website
