@@ -35,7 +35,7 @@ stages:
 - stage: Deploy
   jobs:
   - deployment: Deploy
-    environment: 'your-environment-name'  # Create an environment in Azure DevOps
+    environment: website-deploy  # Create an environment in Azure DevOps
     strategy:
       runOnce:
         deploy:
