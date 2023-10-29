@@ -25,7 +25,7 @@ stages:
 
     - script: | # Build your HTML and CSS files (No actual compilation, just copying)
         mkdir -p $(Build.BinariesDirectory)/website
-        cp -R * $(Build.BinariesDirectory)/website/
+        copy -R * $(Build.BinariesDirectory)/website/
       displayName: 'Copy Website Files'
 
     - publish: $(Build.BinariesDirectory)/website
