@@ -7,7 +7,9 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  name: website-pool
+  demands:
+  - Agent.Name -equals website-blog
 
 steps:
 - script: echo Hello, world!
